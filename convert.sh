@@ -23,7 +23,7 @@ fi
 echo $PANEL
 echo $USER
 echo $PASS
-
+#PASS=
 > $TMPFILE
 echo "list database,table with myisam for rot_* tables to $TMPFILE"
 
