@@ -6,15 +6,15 @@ MYSQL=`which mysql`
 if [ -d /etc/webmin ]; then
   PANEL=vm
   USER=root
-  PASS=$(cat /root/.my.cnf|grep password|cut -f 2 -d "=")
-elif [ -d /usr/local/directadmin ]; then
-  PANEL=da
-  USER=da_admin
-  PASS=$(cat /root/.my.cnf|grep password|cut -f 2 -d "=")
+  PASS=$(cat /etc/webmin/mysql/config |grep pass=|cut -f 2 -d "=")
 elif [ -d /usr/local/vesta ]; then
   PANEL=vc
   USER=root
   PASS=$(cat /usr/local/vesta/conf/mysql.conf |awk '{print $3}'|cut -f 2 -d "'")
+elif [ -d /usr/local/directadmin ]; then
+  PANEL=da
+  USER=da_admin
+  PASS=$(cat /usr/local/directadmin/conf/mysql.conf|grep passwd|cut -f 2 -d "=")
 elif [ -d /usr/local/mgr5 ]; then
   PANEL=isp
   USER=root
