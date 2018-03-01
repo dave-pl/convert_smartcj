@@ -32,6 +32,13 @@ for d in $($MYSQL -u $USER -p$PASS -e "show databases"|grep -v Database);do
     for i in $($MYSQL -u $USER -p$PASS -e "SHOW TABLES FROM $d" | egrep 'rot_gallery_stats|rot_gallery_info|rot_galleries'); do
         $MYSQL -u $USER -p$PASS -e "SELECT TABLE_SCHEMA, table_name FROM INFORMATION_SCHEMA.TABLES where table_name LIKE '$i' and Engine = 'MyISAM'"| tail -n +2 >> $TMPFILE ; done
 done
+
+#альтернативный вариант
+#for d in $($MYSQL -u $USER -p$PASS -e "show databases"|grep -v Database);do 
+#  for i in $($MYSQL -u $USER -p$PASS -e "SHOW TABLES FROM $d" | egrep 'rot_gallery_stats|rot_gallery_info|rot_galleries'); do 
+#    echo "$d $i" >> $TMPFILE ; done
+#done
+
 #коневертируем наши таблицы из файла
 echo "converting tables to innodb"
 cat $TMPFILE |while read l; do read -d, c1 c2 < <(echo $l) ; echo "$c1 $c2 "; $MYSQL -u$USER -p$PASS -e "use $c1; alter table $c2 ENGINE = INNODB;" ; done
