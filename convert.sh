@@ -29,7 +29,7 @@ echo "list database,table with myisam for rot_* tables to $TMPFILE"
 
 #Выводим наши таблицы в файл
 for d in $($MYSQL -u $USER -p$PASS -e "show databases"|grep -v Database);do
-    for i in $($MYSQL -u $USER -p$PASS -e "SHOW TABLES FROM $d" | grep rot_gal*); do
+    for i in $($MYSQL -u $USER -p$PASS -e "SHOW TABLES FROM $d" | egrep 'rot_gallery_stats|rot_gallery_info|rot_galleries'); do
         $MYSQL -u $USER -p$PASS -e "SELECT TABLE_SCHEMA, table_name FROM INFORMATION_SCHEMA.TABLES where table_name LIKE '$i' and Engine = 'MyISAM'"| tail -n +2 >> $TMPFILE ; done
 done
 #коневертируем наши таблицы из файла
